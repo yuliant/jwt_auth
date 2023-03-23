@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
@@ -28,7 +29,15 @@ Route::post('/login', [AuthController::class, 'login']);
 // We use auth api here as a middleware so only authenticated user who can access the endpoint
 // We use group so we can apply middleware auth api to all the routes within the group
 Route::middleware('auth:api')->group(function () {
-    Route::get('/me', [UserController::class, 'me']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
+});
+
+Route::middleware(['auth:api', 'role:user'])->group(function () {
+    Route::get('/me', [UserController::class, 'me']);
+    Route::get('/pagination', [UserController::class, 'pagination']);
+});
+
+Route::middleware(['auth:api', 'role:admin'])->group(function () {
+    Route::get('/admin', [AdminController::class, 'me']);
 });

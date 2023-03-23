@@ -34,6 +34,7 @@ class AuthController extends Controller
             'email' => $request['email'],
             'password' => bcrypt($request['password']),
         ]);
+        $user->assignRole('user');
 
         // login the user immediately and generate the token
         $token = auth()->login($user);

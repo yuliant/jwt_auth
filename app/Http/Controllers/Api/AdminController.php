@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Tbl_tulisan;
 use Illuminate\Http\Request;
 use App\Models\User;
 
-class UserController extends Controller
+class AdminController extends Controller
 {
     public function __construct(User $user)
     {
@@ -28,12 +27,5 @@ class UserController extends Controller
                 'user' => auth()->user(),
             ],
         ]);
-    }
-
-    // pagination
-    public function pagination()
-    {
-        $tulisan = Tbl_tulisan::paginate(5);
-        return response()->json($tulisan);
     }
 }
